@@ -6,6 +6,7 @@ def test_docker_is_installed(host):
 def test_docker_service_is_running(host):
     # testen, ob der Service "docker" läuft und verfügbar ist
     docker = host.service("docker")
+    assert docker.is_enabled
     assert docker.is_running
 
 def test_heroapp_container_is_running(host):
@@ -16,5 +17,5 @@ def test_heroapp_container_is_running(host):
 
 def test_heroapp_is_available_on_port_80(host):
     # testen, ob auf tcp://0.0.0.0:80 gehorcht wird
-    listen = host.addr("tcp://0.0.0.0:80")
-    assert listen.is_resolvable
+    listen = host.socket("tcp://0.0.0.0:80")
+    assert listen.is_listening
