@@ -10,15 +10,13 @@ pipeline {
             steps {
               dir('ci-test-vm') {
                 sh 'terraform init'
-                // hier soll die VM gestartet werden
-                sh 'terraform apply -auto-approve -var="hcloud_token=${HCLOUD_TOKEN}"'
+                  sh 'terraform apply -auto-approve -var="hcloud_token=${HCLOUD_TOKEN}"'
               }
             }
         }
         stage('Run Ansible Playbook') {
             steps {
               sh 'ansible-galaxy collection install -r requirements.yml'
-              // hier sollen die Playbooks laufen
               sh 'ansible-playbook -i inventory/test.hcloud.yml installhero-app.yml'
             }
         }
@@ -26,8 +24,7 @@ pipeline {
     post {
         always {
           dir('ci-test-vm') {
-             // hier soll die VM gelöscht werden
-             sh 'terraform destroy -auto-approve -var="hcloud_token=${HCLOUD_TOKEN}"'
+            sh 'terraform destroy -auto-approve -var="hcloud_token=${HCLOUD_TOKEN}"'
           }
          }
     }
