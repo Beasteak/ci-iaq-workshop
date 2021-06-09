@@ -1,4 +1,4 @@
-- hosts: ansible-test-instance
+- hosts: ansible-test-gerhard
   become: true
   tasks:
     - name: add apt key
